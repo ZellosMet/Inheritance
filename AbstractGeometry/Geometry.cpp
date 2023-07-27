@@ -12,7 +12,7 @@ enum Color
 
 enum RandShape
 {
-	square = 1,
+	square = 0,
 	triangle,
 	rectangl,
 	circle
@@ -132,7 +132,6 @@ public:
 		}
 	}
 };
-
 class Rectangl : public Shape
 {
 	static const int MIN_LENGTH = 3;
@@ -189,7 +188,6 @@ public:
 		SetConsoleTextAttribute(hConsole, Color::console_defauit);
 	}
 };
-
 class Circle : public Shape
 {
 	static const int MIN_RADIUS = 4;
@@ -284,50 +282,78 @@ void main()
 	std::cout << "Площадь круга: " << circle.get_area() << std::endl;
 	std::cout << "Периметр круга: " << circle.get_perimeter() << std::endl;
 	circle.get_draw();
-#endif
+#endif	
 
-	int shape = rand() % 4 + 1;
-	Color rand_color[] = { Color::console_red, Color::console_green, Color::console_blue };
-	int color_shape = rand() % 3 + 1;
-	switch (shape)
+	int arr_chk[] = {1,2,3,4};
+	int i = 0;
+	int shape;
+	bool chk = true;
+
+	for (int l = 0; l < 4; l++)
 	{
-	case RandShape::square:
-	{
-		Square square((rand() % 10), rand_color[color_shape]);
-		std::cout << "Длина стороны квадрата: " << square.get_side() << std::endl;
-		std::cout << "Площадь квадрата: " << square.get_area() << std::endl;
-		std::cout << "Периметр квадрата: " << square.get_perimeter() << std::endl;
-		square.get_draw();
-		break;
-	}
-	case RandShape::triangle:
-	{
-		Triangle triangle((rand() % 10), (rand() % 10), rand_color[color_shape]);
-		std::cout << "Длина основания треугольника: " << triangle.get_base() << std::endl;
-		std::cout << "Высота треугольника: " << triangle.get_height() << std::endl;
-		std::cout << "Площадь треугольника: " << triangle.get_area() << std::endl;
-		std::cout << "Периметр треугольника: " << triangle.get_perimeter() << std::endl;
-		triangle.get_draw();
-		break;
-	}
-	case RandShape::rectangl:
-	{
-		Rectangl rectangl((rand() % 10), (rand() % 10), rand_color[color_shape]);
-		std::cout << "Длина прямоугольника: " << rectangl.get_length() << std::endl;
-		std::cout << "Ширина прямоугольника: " << rectangl.get_width() << std::endl;
-		std::cout << "Площадь прямоугольника: " << rectangl.get_area() << std::endl;
-		std::cout << "Периметр прямоугольника: " << rectangl.get_perimeter() << std::endl;
-		rectangl.get_draw();
-		break;
-	}
-	case RandShape::circle:
-	{
-		Circle circle((rand() % 10), rand_color[color_shape]);
-		std::cout << "Радиус круга: " << circle.get_radius() << std::endl;
-		std::cout << "Площадь круга: " << circle.get_area() << std::endl;
-		std::cout << "Периметр круга: " << circle.get_perimeter() << std::endl;
-		circle.get_draw();
-		break;
-	}
-	}
+		chk = true;
+		while (chk)
+		{
+			shape = rand() % 4;
+			for (int j = 0; j < 4; j++)
+			{
+				if (arr_chk[shape] != 0)
+				{
+					chk = false;
+					break;
+				}
+			}
+		}		
+		Color rand_color[] = { Color::console_red, Color::console_green, Color::console_blue };
+		int color_shape = rand() % 3 + 1;
+		switch (shape)
+		{
+			case RandShape::square:
+			{
+				Square square((rand() % 10), rand_color[color_shape]);
+				std::cout << "Длина стороны квадрата: " << square.get_side() << std::endl;
+				std::cout << "Площадь квадрата: " << square.get_area() << std::endl;
+				std::cout << "Периметр квадрата: " << square.get_perimeter() << std::endl;
+				square.get_draw();
+				arr_chk[0] = 0;
+				std::cout << std::endl;
+				break;
+			}
+			case RandShape::triangle:
+			{
+				Triangle triangle((rand() % 10), (rand() % 10), rand_color[color_shape]);
+				std::cout << "Длина основания треугольника: " << triangle.get_base() << std::endl;
+				std::cout << "Высота треугольника: " << triangle.get_height() << std::endl;
+				std::cout << "Площадь треугольника: " << triangle.get_area() << std::endl;
+				std::cout << "Периметр треугольника: " << triangle.get_perimeter() << std::endl;
+				triangle.get_draw();
+				arr_chk[1] = 0;
+				std::cout << std::endl;
+				break;
+			}
+			case RandShape::rectangl:
+			{
+				Rectangl rectangl((rand() % 10), (rand() % 10), rand_color[color_shape]);
+				std::cout << "Длина прямоугольника: " << rectangl.get_length() << std::endl;
+				std::cout << "Ширина прямоугольника: " << rectangl.get_width() << std::endl;
+				std::cout << "Площадь прямоугольника: " << rectangl.get_area() << std::endl;
+				std::cout << "Периметр прямоугольника: " << rectangl.get_perimeter() << std::endl;
+				rectangl.get_draw();
+				arr_chk[2] = 0;
+				std::cout << std::endl;
+				break;
+			}
+			case RandShape::circle:
+			{
+				Circle circle((rand() % 10), rand_color[color_shape]);
+				std::cout << "Радиус круга: " << circle.get_radius() << std::endl;
+				std::cout << "Площадь круга: " << circle.get_area() << std::endl;
+				std::cout << "Периметр круга: " << circle.get_perimeter() << std::endl;
+				circle.get_draw();
+				arr_chk[3] = 0;
+				std::cout << std::endl;
+				break;
+			}
+		}
+	}	
 }
