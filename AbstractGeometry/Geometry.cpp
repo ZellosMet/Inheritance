@@ -1,10 +1,10 @@
-#include<Windows.h>
+п»ї#include<Windows.h>
 #include<iostream>
 #include<ctime>
 
 enum Color
 {
-	console_red = 0xCC, //0x - шестнадцаричиный
+	console_red = 0xCC, //0x - С€РµСЃС‚РЅР°РґС†Р°СЂРёС‡РёРЅС‹Р№
 	console_green = 0xAA,
 	console_blue = 0x99,
 	console_defauit = 0x07
@@ -255,32 +255,32 @@ void main()
 
 #ifdef TEST
 	Square square(5, Color::console_red);
-	std::cout << "Длина стороны квадрата: " << square.get_side() << std::endl;
-	std::cout << "Площадь квадрата: " << square.get_area() << std::endl;
-	std::cout << "Периметр квадрата: " << square.get_perimeter() << std::endl;
+	std::cout << "Р”Р»РёРЅР° СЃС‚РѕСЂРѕРЅС‹ РєРІР°РґСЂР°С‚Р°: " << square.get_side() << std::endl;
+	std::cout << "РџР»РѕС‰Р°РґСЊ РєРІР°РґСЂР°С‚Р°: " << square.get_area() << std::endl;
+	std::cout << "РџРµСЂРёРјРµС‚СЂ РєРІР°РґСЂР°С‚Р°: " << square.get_perimeter() << std::endl;
 	square.get_draw();
 	std::cout << std::endl;
 
 	Triangle triangle(5, 5, Color::console_green);
-	std::cout << "Длина основания треугольника: " << triangle.get_base() << std::endl;
-	std::cout << "Высота треугольника: " << triangle.get_height() << std::endl;
-	std::cout << "Площадь треугольника: " << triangle.get_area() << std::endl;
-	std::cout << "Периметр треугольника: " << triangle.get_perimeter() << std::endl;
+	std::cout << "Р”Р»РёРЅР° РѕСЃРЅРѕРІР°РЅРёСЏ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°: " << triangle.get_base() << std::endl;
+	std::cout << "Р’С‹СЃРѕС‚Р° С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°: " << triangle.get_height() << std::endl;
+	std::cout << "РџР»РѕС‰Р°РґСЊ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°: " << triangle.get_area() << std::endl;
+	std::cout << "РџРµСЂРёРјРµС‚СЂ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°: " << triangle.get_perimeter() << std::endl;
 	triangle.get_draw();
 	std::cout << std::endl;
 
 	Rectangl rectangl(5, 8, Color::console_blue);
-	std::cout << "Длина прямоугольника: " << rectangl.get_length() << std::endl;
-	std::cout << "Ширина прямоугольника: " << rectangl.get_width() << std::endl;
-	std::cout << "Площадь прямоугольника: " << rectangl.get_area() << std::endl;
-	std::cout << "Периметр прямоугольника: " << rectangl.get_perimeter() << std::endl;
+	std::cout << "Р”Р»РёРЅР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°: " << rectangl.get_length() << std::endl;
+	std::cout << "РЁРёСЂРёРЅР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°: " << rectangl.get_width() << std::endl;
+	std::cout << "РџР»РѕС‰Р°РґСЊ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°: " << rectangl.get_area() << std::endl;
+	std::cout << "РџРµСЂРёРјРµС‚СЂ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°: " << rectangl.get_perimeter() << std::endl;
 	rectangl.get_draw();
 	std::cout << std::endl;
 
 	Circle circle(4, Color::console_red);
-	std::cout << "Радиус круга: " << circle.get_radius() << std::endl;
-	std::cout << "Площадь круга: " << circle.get_area() << std::endl;
-	std::cout << "Периметр круга: " << circle.get_perimeter() << std::endl;
+	std::cout << "Р Р°РґРёСѓСЃ РєСЂСѓРіР°: " << circle.get_radius() << std::endl;
+	std::cout << "РџР»РѕС‰Р°РґСЊ РєСЂСѓРіР°: " << circle.get_area() << std::endl;
+	std::cout << "РџРµСЂРёРјРµС‚СЂ РєСЂСѓРіР°: " << circle.get_perimeter() << std::endl;
 	circle.get_draw();
 #endif	
 
@@ -311,9 +311,9 @@ void main()
 			case RandShape::square:
 			{
 				Square square((rand() % 10), rand_color[color_shape]);
-				std::cout << "Длина стороны квадрата: " << square.get_side() << std::endl;
-				std::cout << "Площадь квадрата: " << square.get_area() << std::endl;
-				std::cout << "Периметр квадрата: " << square.get_perimeter() << std::endl;
+				std::cout << "Р”Р»РёРЅР° СЃС‚РѕСЂРѕРЅС‹ РєРІР°РґСЂР°С‚Р°: " << square.get_side() << std::endl;
+				std::cout << "РџР»РѕС‰Р°РґСЊ РєРІР°РґСЂР°С‚Р°: " << square.get_area() << std::endl;
+				std::cout << "РџРµСЂРёРјРµС‚СЂ РєРІР°РґСЂР°С‚Р°: " << square.get_perimeter() << std::endl;
 				square.get_draw();
 				arr_chk[0] = 0;
 				std::cout << std::endl;
@@ -322,10 +322,10 @@ void main()
 			case RandShape::triangle:
 			{
 				Triangle triangle((rand() % 10), (rand() % 10), rand_color[color_shape]);
-				std::cout << "Длина основания треугольника: " << triangle.get_base() << std::endl;
-				std::cout << "Высота треугольника: " << triangle.get_height() << std::endl;
-				std::cout << "Площадь треугольника: " << triangle.get_area() << std::endl;
-				std::cout << "Периметр треугольника: " << triangle.get_perimeter() << std::endl;
+				std::cout << "Р”Р»РёРЅР° РѕСЃРЅРѕРІР°РЅРёСЏ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°: " << triangle.get_base() << std::endl;
+				std::cout << "Р’С‹СЃРѕС‚Р° С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°: " << triangle.get_height() << std::endl;
+				std::cout << "РџР»РѕС‰Р°РґСЊ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°: " << triangle.get_area() << std::endl;
+				std::cout << "РџРµСЂРёРјРµС‚СЂ С‚СЂРµСѓРіРѕР»СЊРЅРёРєР°: " << triangle.get_perimeter() << std::endl;
 				triangle.get_draw();
 				arr_chk[1] = 0;
 				std::cout << std::endl;
@@ -334,10 +334,10 @@ void main()
 			case RandShape::rectangl:
 			{
 				Rectangl rectangl((rand() % 10), (rand() % 10), rand_color[color_shape]);
-				std::cout << "Длина прямоугольника: " << rectangl.get_length() << std::endl;
-				std::cout << "Ширина прямоугольника: " << rectangl.get_width() << std::endl;
-				std::cout << "Площадь прямоугольника: " << rectangl.get_area() << std::endl;
-				std::cout << "Периметр прямоугольника: " << rectangl.get_perimeter() << std::endl;
+				std::cout << "Р”Р»РёРЅР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°: " << rectangl.get_length() << std::endl;
+				std::cout << "РЁРёСЂРёРЅР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°: " << rectangl.get_width() << std::endl;
+				std::cout << "РџР»РѕС‰Р°РґСЊ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°: " << rectangl.get_area() << std::endl;
+				std::cout << "РџРµСЂРёРјРµС‚СЂ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°: " << rectangl.get_perimeter() << std::endl;
 				rectangl.get_draw();
 				arr_chk[2] = 0;
 				std::cout << std::endl;
@@ -346,9 +346,9 @@ void main()
 			case RandShape::circle:
 			{
 				Circle circle((rand() % 10), rand_color[color_shape]);
-				std::cout << "Радиус круга: " << circle.get_radius() << std::endl;
-				std::cout << "Площадь круга: " << circle.get_area() << std::endl;
-				std::cout << "Периметр круга: " << circle.get_perimeter() << std::endl;
+				std::cout << "Р Р°РґРёСѓСЃ РєСЂСѓРіР°: " << circle.get_radius() << std::endl;
+				std::cout << "РџР»РѕС‰Р°РґСЊ РєСЂСѓРіР°: " << circle.get_area() << std::endl;
+				std::cout << "РџРµСЂРёРјРµС‚СЂ РєСЂСѓРіР°: " << circle.get_perimeter() << std::endl;
 				circle.get_draw();
 				arr_chk[3] = 0;
 				std::cout << std::endl;
