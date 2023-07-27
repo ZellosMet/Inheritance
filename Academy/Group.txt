@@ -1,0 +1,3 @@
+class Human	Montana     Antonio     35   
+class Student	Pinkman     Jessie      75   Chemistry             WW_220 68      76      
+class Teacher	Ivanov      Ivan        68   Programmer            95   
