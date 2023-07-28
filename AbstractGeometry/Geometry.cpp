@@ -80,10 +80,8 @@ namespace Geometry
 	};
 	class Rectangle : public Shape
 	{
-		static const int MIN_SIDE1 = 3;
-		static const int MAX_SIDE1 = 50;
-		static const int MIN_SIDE2 = 3;
-		static const int MAX_SIDE2 = 50;
+		static const int MIN_SIDE = 30;
+		static const int MAX_SIDE = 500;
 		double side1;
 		double side2;
 	public:
@@ -97,14 +95,14 @@ namespace Geometry
 		}
 		void set_length(double side1)
 		{
-			if (side1 < MIN_SIDE1) side1 = MIN_SIDE1;
-			if (side1 > MAX_SIDE1) side1 = MAX_SIDE1;
+			if (side1 < MIN_SIDE) side1 = MIN_SIDE;
+			if (side1 > MAX_SIDE) side1 = MAX_SIDE;
 			this->side1 = side1;
 		}
 		void set_width(double side2)
 		{
-			if (side2 < MIN_SIDE2) side2 = MIN_SIDE2;
-			if (side2 > MAX_SIDE2) side2 = MAX_SIDE2;
+			if (side2 < MIN_SIDE) side2 = MIN_SIDE;
+			if (side2 > MAX_SIDE) side2 = MAX_SIDE;
 			this->side2 = side2;
 		}
 		Rectangle(double side1, double side2, SHAPE_TAKE_PARAMETERSINT) : Shape(SHAPE_GIVE_PARAMETERSINT)
@@ -278,16 +276,15 @@ void main()
 	srand(time(NULL));
 	setlocale(LC_ALL, "");
 
-	Geometry::Rectangle rectangle(30, 15, 100, 200, 5, Geometry::Color::blue);
-	rectangle.info();
-	rectangle.get_draw();
-	std::cout << std::endl;
-
-	Geometry::Square square(20, 600, 500, 15, Geometry::Color::console_red);
+	Geometry::Square square(50, 300, 300, 5, Geometry::Color::red);
 	square.info();
 	square.get_draw();
 	std::cout << std::endl;
 
+	Geometry::Rectangle rectangle(150, 100, 300, 500, 5, Geometry::Color::blue);
+	rectangle.info();
+	rectangle.get_draw();
+	std::cout << std::endl;
 
 #ifdef TEST
 
