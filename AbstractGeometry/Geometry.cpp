@@ -2,250 +2,275 @@
 #include<iostream>
 #include<ctime>
 
-enum Color
+namespace Geometry
 {
+	enum Color
+	{
+	red = 0x000000FF,
+	green = 0x00FF000,
+	blue = 0x00FF0000,
+	yelloy = 0x00FFFF00,
+
 	console_red = 0xCC, //0x - шестнадцаричиный
 	console_green = 0xAA,
 	console_blue = 0x99,
 	console_defauit = 0x07
-};
-
-enum RandShape
-{
-	square = 0,
-	triangle,
-	rectangl,
-	circle
-};
-
-class Shape
-{
-protected:
-	Color color;
-public:
-	Shape(Color color) : color(color) {}
-	virtual ~Shape() {}
-	virtual double get_area()const = 0;
-	virtual double get_perimeter()const = 0;
-	virtual void get_draw()const = 0;
-
-};
-
-class Square : public Shape
-{
-	static const int MIN_SIDE = 2;
-	static const int MAX_SIDE = 50;
-	double side;
-public:
-	double get_side()const
+	};
+#define SHAPE_TAKE_PARAMETERSINT int start_x, int start_y, int line_width, Color color
+#define SHAPE_GIVE_PARAMETERSINT start_x, start_y, line_width, color
+	class Shape
 	{
-		return side;
-	}
-	void set_side(double side)
-	{
-		if (side < MIN_SIDE) side = MIN_SIDE;
-		if (side > MAX_SIDE) side = MAX_SIDE;
-		this->side = side;
-	}
-	Square(double side, Color color) : Shape(color)
-	{
-		set_side(side);
-	}
-	~Square() {}
-	double get_area()const override
-	{
-		return side * side;
-	}
-	double get_perimeter()const override
-	{
-		return side * 4;
-	}
-	void get_draw()const override
-	{
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(hConsole, color);
-		for (int i = 0; i < side; i++)
+		static const int MIN_START_X = 10;
+		static const int MIN_START_Y = 10;
+		static const int MAX_START_X = 500;
+		static const int MAX_START_Y = 400;
+		static const int MIN_LINE_WIDTH = 5;
+		static const int MAX_LINE_WIDTH = 25;		
+	protected:
+		int start_x;
+		int start_y;
+		int line_width;
+		Color color;
+	public:
+		Shape(SHAPE_TAKE_PARAMETERSINT) : color(color)
 		{
-			for (int j = 0; j < side; j++)
+			set_start_x(start_x);
+			set_start_y(start_y);
+			set_line_width(line_width);
+		}
+		virtual ~Shape() {}
+		int get_start_x()const
+		{
+			return start_x;
+		}
+		int get_start_y()const
+		{
+			return start_y;
+		}
+		int get_line_width()const
+		{
+			return line_width;
+		}
+		void set_start_x(int start_x)
+		{
+			if (start_x < MIN_START_X) start_x = MIN_START_X;
+			if (start_x < MAX_START_X) start_x = MAX_START_X;
+			this->start_x = start_x;			
+		}
+		void set_start_y(int start_y)
+		{
+			if (start_y < MIN_START_Y) start_y = MIN_START_Y;
+			if (start_y < MAX_START_Y) start_y = MAX_START_Y;
+			this->start_y = start_y;			
+		}
+		void set_line_width(int line_width)
+		{
+			if (line_width < MIN_LINE_WIDTH) line_width = MIN_LINE_WIDTH;
+			if (line_width < MAX_LINE_WIDTH) line_width = MAX_LINE_WIDTH;
+			this->line_width = line_width;
+		}
+		virtual double get_area()const = 0;
+		virtual double get_perimeter()const = 0;
+		virtual void get_draw()const = 0;
+		virtual void info()const
+		{
+			std::cout << "Площать фигуры: " << get_area() << std::endl;
+			std::cout << "Периметр фигуры: " << get_perimeter() << std::endl;
+		}
+	};
+	class Rectangle : public Shape
+	{
+		static const int MIN_SIDE1 = 3;
+		static const int MAX_SIDE1 = 50;
+		static const int MIN_SIDE2 = 3;
+		static const int MAX_SIDE2 = 50;
+		double side1;
+		double side2;
+	public:
+		double get_length()const
+		{
+			return side1;
+		}
+		double get_width()const
+		{
+			return side2;
+		}
+		void set_length(double side1)
+		{
+			if (side1 < MIN_SIDE1) side1 = MIN_SIDE1;
+			if (side1 > MAX_SIDE1) side1 = MAX_SIDE1;
+			this->side1 = side1;
+		}
+		void set_width(double side2)
+		{
+			if (side2 < MIN_SIDE2) side2 = MIN_SIDE2;
+			if (side2 > MAX_SIDE2) side2 = MAX_SIDE2;
+			this->side2 = side2;
+		}
+		Rectangle(double side1, double side2, SHAPE_TAKE_PARAMETERSINT) : Shape(SHAPE_GIVE_PARAMETERSINT)
+		{
+			set_length(side1);
+			set_width(side2);
+		}
+		~Rectangle() {}
+		double get_area()const override
+		{
+			return side1 * side2;
+		}
+		double get_perimeter()const override
+		{
+			return (side1 + side2) * 2;
+		}
+		void get_draw()const override
+		{
+			HWND hwnd = GetConsoleWindow(); //получаем окно консоли
+			HDC hdc = GetDC(hwnd); //создаём контекс устройства
+			HPEN hPen = CreatePen(PS_SOLID, 5, color); //карандаш рисует контур фигуры
+			HBRUSH hBrush = CreateSolidBrush(color); //кисть заливает цветом фигуру
+			//Выбираем чем и на чём будем рисовать
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+
+			// Рисуем фигуру
+			::Rectangle(hdc, start_x, start_y, start_x+side1, start_y + side2);
+
+			//Очищаем память
+			DeleteObject(hPen);
+			DeleteObject(hBrush);
+			ReleaseDC(hwnd, hdc);
+		}
+		void info()const override
+		{
+			std::cout << typeid(*this).name() << std::endl;
+			std::cout << "Сторона1: " << side1 << std::endl;
+			std::cout << "Сторона2: " << side2 << std::endl;
+			Shape::info();
+		}
+	};
+	class Square : public Rectangle
+	{
+	public:
+		Square(double side, SHAPE_TAKE_PARAMETERSINT) : Rectangle(side, side, SHAPE_GIVE_PARAMETERSINT) {}
+		~Square() {}
+	};
+/*
+	class Triangle : public Shape
+	{
+		static const int MIN_BASE = 3;
+		static const int MAX_BASE = 50;
+		static const int MIN_HEIGHT = 3;
+		static const int MAX_HEIGHT = 50;
+		double base;
+		double height;
+	public:
+		double get_base()const
+		{
+			return base;
+		}
+		double get_height()const
+		{
+			return height;
+		}
+		void set_base(double base)
+		{
+			if (base < MIN_BASE) base = MIN_BASE;
+			if (base > MAX_BASE) base = MAX_BASE;
+			this->base = base;
+		}
+		void set_height(double height)
+		{
+			if (height < MIN_BASE) height = MIN_BASE;
+			if (height > MAX_BASE) height = MAX_BASE;
+			this->height = height;
+		}
+		Triangle(double base, double height, Color color) : Shape(color)
+		{
+			set_base(base);
+			set_height(height);
+		}
+		~Triangle() {}
+		double get_area()const override
+		{
+			return height / 2 * base;
+		}
+		double get_perimeter()const override
+		{
+			return 2 * height + base;
+		}
+		void get_draw()const override
+		{
+			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+			for (int i = 0; i < height; i++)
+			{
+				for (int j = i; j < height - 1; j++)
+					std::cout << "  ";
+				SetConsoleTextAttribute(hConsole, color);
 				std::cout << "* ";
-			std::cout << std::endl;
+				for (int j = 0; j < i * 2; j++)
+					std::cout << "* ";
+				std::cout << std::endl;
+				SetConsoleTextAttribute(hConsole, Color::console_defauit);
+			}
 		}
-		SetConsoleTextAttribute(hConsole, Color::console_defauit);
-	}
-};
-class Triangle : public Shape
-{
-	static const int MIN_BASE = 3;
-	static const int MAX_BASE = 50;
-	static const int MIN_HEIGHT = 3;
-	static const int MAX_HEIGHT = 50;
-	double base;
-	double height;
-public:
-	double get_base()const
+	};
+	class Circle : public Shape
 	{
-		return base;
-	}
-	double get_height()const
-	{
-		return height;
-	}
-	void set_base(double base)
-	{
-		if (base < MIN_BASE) base = MIN_BASE;
-		if (base > MAX_BASE) base = MAX_BASE;
-		this->base = base;
-	}
-	void set_height(double height)
-	{
-		if (height < MIN_BASE) height = MIN_BASE;
-		if (height > MAX_BASE) height = MAX_BASE;
-		this->height = height;
-	}
-	Triangle(double base, double height, Color color) : Shape(color)
-	{
-		set_base(base);
-		set_height(height);
-	}
-	~Triangle() {}
-	double get_area()const override
-	{
-		return height / 2 * base;
-	}
-	double get_perimeter()const override
-	{
-		return 2 * height + base;
-	}
-	void get_draw()const override
-	{
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		for (int i = 0; i < height; i++)
+		static const int MIN_RADIUS = 4;
+		static const int MAX_RADIUS = 50;
+		static const double PI;
+
+		double radius;
+	public:
+		double get_radius()const
 		{
-			for (int j = i; j < height - 1; j++)
-				std::cout << "  ";
-			SetConsoleTextAttribute(hConsole, color);
-			std::cout << "* ";
-			for (int j = 0; j < i * 2; j++)
+			return radius;
+		}
+		void set_radius(double radius)
+		{
+			if (radius < MIN_RADIUS) radius = MIN_RADIUS;
+			if (radius > MAX_RADIUS) radius = MAX_RADIUS;
+			this->radius = radius;
+		}
+		Circle(double radius, Color color) : Shape(color)
+		{
+			set_radius(radius);
+		}
+		~Circle() {}
+		double get_area()const override
+		{
+			return PI * radius * radius;
+		}
+		double get_perimeter()const override
+		{
+			return PI * radius * 2;
+		}
+		void get_draw()const override
+		{
+			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+			for (int i = 0; i < radius; i++)
+			{
+				for (int j = i; j < radius - 1; j++) std::cout << "  ";
+				SetConsoleTextAttribute(hConsole, color);
 				std::cout << "* ";
-			std::cout << std::endl;
-			SetConsoleTextAttribute(hConsole, Color::console_defauit);
-		}
-	}
-};
-class Rectangl : public Shape
-{
-	static const int MIN_LENGTH = 3;
-	static const int MAX_LENGTH = 50;
-	static const int MIN_WIDTH = 3;
-	static const int MAX_WIDTH = 50;
-	double length;
-	double width;
-public:
-	double get_length()const
-	{
-		return length;
-	}
-	double get_width()const
-	{
-		return width;
-	}
-	void set_length(double length)
-	{
-		if (length < MIN_LENGTH) length = MIN_LENGTH;
-		if (length > MAX_LENGTH) length = MAX_LENGTH;
-		this->length = length;
-	}
-	void set_width(double width)
-	{
-		if (width < MIN_WIDTH) width = MIN_WIDTH;
-		if (width > MAX_WIDTH) width = MAX_WIDTH;
-		this->width = width;
-	}
-	Rectangl(double width, double length, Color color) : Shape(color)
-	{
-		set_length(length);
-		set_width(width);
-	}
-	~Rectangl() {}
-	double get_area()const override
-	{
-		return length * width;
-	}
-	double get_perimeter()const override
-	{
-		return length * 2 + width * 2;
-	}
-	void get_draw()const override
-	{
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(hConsole, color);
-		for (int i = 0; i < width; i++)
-		{
-			for (int j = 0; j < length; j++)
+				for (int j = 0; j < i * 2; j++) std::cout << "  "; std::cout << "* ";
+				SetConsoleTextAttribute(hConsole, Color::console_defauit);
+				std::cout << std::endl;
+			}
+			for (int i = 0; i < radius; i++)
+			{
+				for (int j = 0; j <= i - 1; j++) std::cout << "  ";
+				SetConsoleTextAttribute(hConsole, color);
 				std::cout << "* ";
-			std::cout << std::endl;
+				for (int j = 0; j < (radius - 1 - i) * 2; j++) std::cout << "  ";
+				std::cout << "* ";
+				SetConsoleTextAttribute(hConsole, Color::console_defauit);
+				std::cout << std::endl;
+			}
 		}
-		SetConsoleTextAttribute(hConsole, Color::console_defauit);
-	}
-};
-class Circle : public Shape
-{
-	static const int MIN_RADIUS = 4;
-	static const int MAX_RADIUS = 50;
-	static const double PI;
-
-	double radius;
-public:
-	double get_radius()const
-	{
-		return radius;
-	}
-	void set_radius(double radius)
-	{
-		if (radius < MIN_RADIUS) radius = MIN_RADIUS;
-		if (radius > MAX_RADIUS) radius = MAX_RADIUS;
-		this->radius = radius;
-	}
-	Circle(double radius, Color color) : Shape(color)
-	{
-		set_radius(radius);
-	}
-	~Circle() {}
-	double get_area()const override
-	{
-		return PI * radius * radius;
-	}
-	double get_perimeter()const override
-	{
-		return PI * radius * 2;
-	}
-	void get_draw()const override
-	{
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		for (int i = 0; i < radius; i++)
-		{
-			for (int j = i; j < radius - 1; j++) std::cout << "  ";
-			SetConsoleTextAttribute(hConsole, color);
-			std::cout << "* ";
-			for (int j = 0; j < i * 2; j++) std::cout << "  "; std::cout << "* ";
-			SetConsoleTextAttribute(hConsole, Color::console_defauit);
-			std::cout << std::endl;
-		}
-		for (int i = 0; i < radius; i++)
-		{
-			for (int j = 0; j <= i - 1; j++) std::cout << "  ";
-			SetConsoleTextAttribute(hConsole, color);
-			std::cout << "* ";
-			for (int j = 0; j < (radius - 1 - i) * 2; j++) std::cout << "  ";
-			std::cout << "* ";
-			SetConsoleTextAttribute(hConsole, Color::console_defauit);
-			std::cout << std::endl;
-		}
-	}
-};
-
-double const Circle::PI = 3.14;
-
+	};
+	double const Circle::PI = 3.14;
+*/
+}
 //#define TEST
 
 void main()
@@ -253,13 +278,18 @@ void main()
 	srand(time(NULL));
 	setlocale(LC_ALL, "");
 
-#ifdef TEST
-	Square square(5, Color::console_red);
-	std::cout << "Длина стороны квадрата: " << square.get_side() << std::endl;
-	std::cout << "Площадь квадрата: " << square.get_area() << std::endl;
-	std::cout << "Периметр квадрата: " << square.get_perimeter() << std::endl;
+	Geometry::Rectangle rectangle(30, 15, 100, 200, 5, Geometry::Color::blue);
+	rectangle.info();
+	rectangle.get_draw();
+	std::cout << std::endl;
+
+	Geometry::Square square(20, 600, 500, 15, Geometry::Color::console_red);
+	square.info();
 	square.get_draw();
 	std::cout << std::endl;
+
+
+#ifdef TEST
 
 	Triangle triangle(5, 5, Color::console_green);
 	std::cout << "Длина основания треугольника: " << triangle.get_base() << std::endl;
@@ -269,13 +299,6 @@ void main()
 	triangle.get_draw();
 	std::cout << std::endl;
 
-	Rectangl rectangl(5, 8, Color::console_blue);
-	std::cout << "Длина прямоугольника: " << rectangl.get_length() << std::endl;
-	std::cout << "Ширина прямоугольника: " << rectangl.get_width() << std::endl;
-	std::cout << "Площадь прямоугольника: " << rectangl.get_area() << std::endl;
-	std::cout << "Периметр прямоугольника: " << rectangl.get_perimeter() << std::endl;
-	rectangl.get_draw();
-	std::cout << std::endl;
 
 	Circle circle(4, Color::console_red);
 	std::cout << "Радиус круга: " << circle.get_radius() << std::endl;
@@ -284,76 +307,5 @@ void main()
 	circle.get_draw();
 #endif	
 
-	int arr_chk[] = {1,2,3,4};
-	int i = 0;
-	int shape;
-	bool chk = true;
-
-	for (int l = 0; l < 4; l++)
-	{
-		chk = true;
-		while (chk)
-		{
-			shape = rand() % 4;
-			for (int j = 0; j < 4; j++)
-			{
-				if (arr_chk[shape] != 0)
-				{
-					chk = false;
-					break;
-				}
-			}
-		}		
-		Color rand_color[] = { Color::console_red, Color::console_green, Color::console_blue };
-		int color_shape = rand() % 3 + 1;
-		switch (shape)
-		{
-			case RandShape::square:
-			{
-				Square square((rand() % 10), rand_color[color_shape]);
-				std::cout << "Длина стороны квадрата: " << square.get_side() << std::endl;
-				std::cout << "Площадь квадрата: " << square.get_area() << std::endl;
-				std::cout << "Периметр квадрата: " << square.get_perimeter() << std::endl;
-				square.get_draw();
-				arr_chk[0] = 0;
-				std::cout << std::endl;
-				break;
-			}
-			case RandShape::triangle:
-			{
-				Triangle triangle((rand() % 10), (rand() % 10), rand_color[color_shape]);
-				std::cout << "Длина основания треугольника: " << triangle.get_base() << std::endl;
-				std::cout << "Высота треугольника: " << triangle.get_height() << std::endl;
-				std::cout << "Площадь треугольника: " << triangle.get_area() << std::endl;
-				std::cout << "Периметр треугольника: " << triangle.get_perimeter() << std::endl;
-				triangle.get_draw();
-				arr_chk[1] = 0;
-				std::cout << std::endl;
-				break;
-			}
-			case RandShape::rectangl:
-			{
-				Rectangl rectangl((rand() % 10), (rand() % 10), rand_color[color_shape]);
-				std::cout << "Длина прямоугольника: " << rectangl.get_length() << std::endl;
-				std::cout << "Ширина прямоугольника: " << rectangl.get_width() << std::endl;
-				std::cout << "Площадь прямоугольника: " << rectangl.get_area() << std::endl;
-				std::cout << "Периметр прямоугольника: " << rectangl.get_perimeter() << std::endl;
-				rectangl.get_draw();
-				arr_chk[2] = 0;
-				std::cout << std::endl;
-				break;
-			}
-			case RandShape::circle:
-			{
-				Circle circle((rand() % 10), rand_color[color_shape]);
-				std::cout << "Радиус круга: " << circle.get_radius() << std::endl;
-				std::cout << "Площадь круга: " << circle.get_area() << std::endl;
-				std::cout << "Периметр круга: " << circle.get_perimeter() << std::endl;
-				circle.get_draw();
-				arr_chk[3] = 0;
-				std::cout << std::endl;
-				break;
-			}
-		}
-	}	
+	
 }
