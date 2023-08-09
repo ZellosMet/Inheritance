@@ -24,8 +24,8 @@ namespace Geometry
 	{
 		static const int MIN_START_X = 10;
 		static const int MIN_START_Y = 10;
-		static const int MAX_START_X = 500;
-		static const int MAX_START_Y = 400;
+		static const int MAX_START_X = 600;
+		static const int MAX_START_Y = 1000;
 		static const int MIN_LINE_WIDTH = 5;
 		static const int MAX_LINE_WIDTH = 25;
 	protected:
@@ -56,19 +56,19 @@ namespace Geometry
 		void set_start_x(int start_x)
 		{
 			if (start_x < MIN_START_X) start_x = MIN_START_X;
-			if (start_x < MAX_START_X) start_x = MAX_START_X;
+			if (start_x > MAX_START_X) start_x = MAX_START_X;
 			this->start_x = start_x;
 		}
 		void set_start_y(int start_y)
 		{
 			if (start_y < MIN_START_Y) start_y = MIN_START_Y;
-			if (start_y < MAX_START_Y) start_y = MAX_START_Y;
+			if (start_y > MAX_START_Y) start_y = MAX_START_Y;
 			this->start_y = start_y;
 		}
 		void set_line_width(int line_width)
 		{
 			if (line_width < MIN_LINE_WIDTH) line_width = MIN_LINE_WIDTH;
-			if (line_width < MAX_LINE_WIDTH) line_width = MAX_LINE_WIDTH;
+			if (line_width > MAX_LINE_WIDTH) line_width = MAX_LINE_WIDTH;
 			this->line_width = line_width;
 		}
 		virtual double get_area()const = 0;
@@ -211,6 +211,14 @@ namespace Geometry
 
 	class Triangle : public Shape
 	{
+		static const int MIN_SIDE1 = 4;
+		static const int MAX_SIDE1 = 50;
+		static const int MIN_SIDE2 = 4;
+		static const int MAX_SIDE2 = 50;
+		static const int MIN_SIDE3 = 4;
+		static const int MAX_SIDE3 = 50;
+		static const int MIN_ANGLE = 2;
+		static const int MAX_ANGLE = 79;
 	protected:
 		double side1;
 		double side2;
@@ -237,18 +245,26 @@ namespace Geometry
 		}
 		void set_side1(double side1)
 		{
+			if (side1 < MIN_SIDE1) side1 = MIN_SIDE1;
+			if (side1 > MAX_SIDE1) side1 = MAX_SIDE1;
 			this->side1 = side1;
 		}
 		void set_side2(double side2)
 		{
+			if (side2 < MIN_SIDE2) side2 = MIN_SIDE2;
+			if (side2 > MAX_SIDE2) side2 = MAX_SIDE2;
 			this->side2 = side2;
 		}
 		void set_side3(double side3)
 		{
+			if (side3 < MIN_SIDE3) side3 = MIN_SIDE3;
+			if (side3 > MAX_SIDE3) side3 = MAX_SIDE3;
 			this->side3 = side3;
 		}
 		void set_angle(double angle)
 		{
+			if (angle < MIN_ANGLE) angle = MIN_ANGLE;
+			if (angle > MAX_ANGLE) angle = MAX_ANGLE;
 			this->angle = angle;
 		}
 		Triangle(double side1, double side2, double angle, SHAPE_TAKE_PARAMETERSINT) : Shape(SHAPE_GIVE_PARAMETERSINT)
@@ -322,6 +338,7 @@ void main()
 {
 	srand(time(NULL));
 	setlocale(LC_ALL, "");
+
 	Geometry::AcuteTriangle acutetriangle(50, 60, 60, 550, 50, 5, Geometry::Color::green);
 	acutetriangle.info();
 	acutetriangle.get_draw();
